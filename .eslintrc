@@ -13,5 +13,9 @@
     "angular": true,
     "module": true,
     "inject": true
+  },
+  "rules":{
+    "no-console": 0,
+    "angular/log": 0
   }
 }

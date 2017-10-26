@@ -1,32 +1,19 @@
 export class MainController {
-  constructor ($timeout, webDevTec, toastr) {
+  constructor ($http, API_URL) {
     'ngInject';
-
-    this.awesomeThings = [];
-    this.classAnimation = '';
-    this.creationDate = 1508221793922;
-    this.toastr = toastr;
-
-    this.activate($timeout, webDevTec);
+    this.$http = $http;
+    this.API_URL = API_URL;
+    this.getMessages();
   }
 
-  activate($timeout, webDevTec) {
-    this.getWebDevTec(webDevTec);
-    $timeout(() => {
-      this.classAnimation = 'rubberBand';
-    }, 4000);
-  }
-
-  getWebDevTec(webDevTec) {
-    this.awesomeThings = webDevTec.getTec();
-
-    angular.forEach(this.awesomeThings, (awesomeThing) => {
-      awesomeThing.rank = Math.random();
+  getMessages() {
+    var vm = this;
+    this.$http.get('http://localhost:5000/api/message').then(function(result) {
+      vm.messages = result.data;
     });
   }
 
-  showToastr() {
-    this.toastr.info('Fork <a href="https://github.com/Swiip/generator-gulp-angular" target="_blank"><b>generator-gulp-angular</b></a>');
-    this.classAnimation = '';
+  postMessage() {
+    this.$http.post(this.API_URL+'api/message', {"msg": this.msg});
   }
 }
